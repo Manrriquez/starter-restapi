@@ -16,12 +16,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public String starterGet(@PathVariable String name) {
-        return "Curso api: " + name +" !";
-    }
-
     @GetMapping(value = "listAll")
     @ResponseBody //RETORNA OS DADOS PARA O CORPO DA REQUISIÇÃO
     public ResponseEntity<List<UserModel>> listUser(){
@@ -47,6 +41,27 @@ public class UserController {
         userRepository.deleteById(idUser);
 
         return new ResponseEntity<String>("Usuario deletado com sucesso", HttpStatus.OK);
+    }
+
+    @GetMapping(value = "findUser")
+    @ResponseBody // REQUESTBODY = DESCRIÇÃO DA RESPOSTA
+    // REQUESTPARAM RECEBE OS DADOS PARA BUSCAR
+    public ResponseEntity<UserModel> findUser(@RequestParam(name = "iduser") Long idUser) {
+        UserModel user = userRepository.findById(idUser).get();
+
+        return new ResponseEntity<UserModel>(user, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "edit")
+    @ResponseBody // REQUESTBODY = DESCRIÇÃO DA RESPOSTA
+    // REQUESTBODY RECEBE OS DADOS PARA SALVAR
+    public ResponseEntity<?> editUser(@RequestBody UserModel user) {
+        if(user.getId() == null) {
+            return new ResponseEntity<String>("id não foi informado para att", HttpStatus.OK);
+
+        }
+        UserModel userEdit = userRepository.saveAndFlush(user);
+        return new ResponseEntity<UserModel>(userEdit, HttpStatus.OK);
     }
 
 }
