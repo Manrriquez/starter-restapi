@@ -64,6 +64,7 @@ public class UserController {
         return new ResponseEntity<UserModel>(userEdit, HttpStatus.OK);
     }
 
+
     @GetMapping(value = "findName")
     @ResponseBody // REQUESTBODY = DESCRIÇÃO DA RESPOSTA
     // REQUESTPARAM RECEBE OS DADOS PARA BUSCAR
