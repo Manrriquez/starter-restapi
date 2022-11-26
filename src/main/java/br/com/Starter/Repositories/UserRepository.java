@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Long> {
 
-    @Query(value = "select u from UserModel u where u.name like %?1%")
+    @Query(value = "select u from UserModel u where upper(trim(u.name)) like %?1%")
     List<UserModel> findName(String name);
 }

@@ -68,7 +68,7 @@ public class UserController {
     @ResponseBody // REQUESTBODY = DESCRIÇÃO DA RESPOSTA
     // REQUESTPARAM RECEBE OS DADOS PARA BUSCAR
     public ResponseEntity<List<UserModel>> findName(@RequestParam(name = "name") String name) {
-        List<UserModel> userName = userRepository.findName(name);
+        List<UserModel> userName = userRepository.findName(name.trim().toUpperCase());
 
         return new ResponseEntity<List<UserModel>>(userName, HttpStatus.OK);
     }
