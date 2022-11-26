@@ -36,6 +36,9 @@
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Pesquisar
                                 </button>
+                                <button type="button" class="btn btn-success" onclick="deleteUserHome()">
+                                    Deletar
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -85,9 +88,21 @@
 
 <script type="text/javascript">
 
+
+    function deleteUserHome() {
+        var id = $("#id").val();
+        if(id != null && id.trim() != "") {
+            deleteUser(id);
+            document.getElementById('formUser').reset();
+        } else {
+            alert("informe os dados necessarios do usuario no formulario antes de deletar!")
+        }
+
+    }
+
     function deleteUser(id) {
         var name = $("#findname").val();
-        if(name != null && name.trim() != '') {
+        if(name != null && name.trim() != '' && confirm("Deseja realmente excluir este usuario?")) {
             $.ajax({
             method: "DELETE",
             url: "delete",
@@ -146,6 +161,19 @@
         var name = $("#name").val();
         var years = $("#years").val();
 
+        if(name == null || name.trim() == "") {
+            alert("Preencha o compo de nome!")
+            $("#name").focus();
+            return;
+        } 
+
+        if(years == null || years.trim() == "") {
+
+            alert("preencha o campo de idade!")
+            $("#years").focus();
+            return;
+        }
+
         $.ajax({
             method: "POST",
             url: "save",
@@ -156,8 +184,8 @@
                 $("#id").val(response.id);
                 alert("salvo com sucesso!");
             }
-        }).fail(function(xhr, status, errorThown) {
-            alert("Erro ao salvar :" + xhr.responseText);
+            }).fail(function(xhr, status, errorThown) {
+                alert("Erro ao salvar :" + xhr.responseText);
         });
     }
 </script>
